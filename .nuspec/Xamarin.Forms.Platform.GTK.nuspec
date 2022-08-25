@@ -15,7 +15,7 @@
     <copyright>© Microsoft Corporation. All rights reserved.</copyright>
     <dependencies>
       <group>
-        <dependency id="Xamarin.Forms" version="$core_version$" />
+        <dependency id="DotNetForms" version="$core_version$" />
         <dependency id="OpenTK" version="3.0.1" />
       </group>
     </dependencies>
