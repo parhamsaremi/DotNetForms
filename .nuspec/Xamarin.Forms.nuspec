@@ -1,15 +1,15 @@
 ﻿<?xml version="1.0"?>
 <package >
   <metadata>
-    <id>Xamarin.Forms</id>
+    <id>DotNetForms</id>
     <version>$version$</version>
     <authors>Microsoft</authors>
     <owners>microsoft xamarin</owners>
     <tags>xamarin forms xamarinforms xamarin.forms</tags>
     <license type="expression">MIT</license>
     <icon>Assets\xamarin_128x128.png</icon>
-    <projectUrl>http://xamarin.com/forms</projectUrl>
-    <repository type="git" url="https://github.com/xamarin/xamarin.forms"/>
+    <projectUrl>https://github.com/nblockchain/DotNetForms</projectUrl>
+    <repository type="git" url="https://github.com/nblockchain/DotNetForms"/>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>Build native UIs for iOS, Android, UWP, macOS, Tizen and many more from a single, shared C# codebase</description>
     <copyright>© Microsoft Corporation. All rights reserved.</copyright>

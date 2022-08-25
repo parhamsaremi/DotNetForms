@@ -8,36 +8,60 @@ jobs:
         # NOTE!!: sync with version number in Xamarin.Forms.Platform.GTK.csproj
         BASE_VERSION: 5.0.0.2515
         DEFAULT_REF_TO_NUGET_PUSH: refs/heads/5.0.0
-    runs-on: windows-latest
+    runs-on: windows-2019
     steps:
     - uses: actions/checkout@v1
     - name: Download Nuget.exe
       uses: NuGet/setup-nuget@v1.0.5
       with:
         nuget-version: 5.4.0
+        
     - name: setup-msbuild
       uses: microsoft/setup-msbuild@v1
-    - name: Restore & Build
+
+    - name: Restore
+      run: msbuild /restore Xamarin.Forms.sln
+    
+    - name: Build
+      run: msbuild .\Xamarin.Forms.sln -p:Configuration=Release
+
+    - name: Package and Upload
+      run: |
+        git clone https://github.com/nblockchain/fsx
+        $env:DOTNETFORMS_VERSION = `.\fsx\Tools\fsi.bat fsx\Tools\nugetPush.fsx --output-version $env:BASE_VERSION`
+
+        echo ("DOTNETFORMS_VERSION=$env:DOTNETFORMS_VERSION") >> $env:GITHUB_ENV
+
+        nuget pack .nuspec/Xamarin.Forms.nuspec -p "version=$env:DOTNETFORMS_VERSION;Configuration=Release"
+
+        If ($Env:GITHUB_REF -eq $Env:DEFAULT_REF_TO_NUGET_PUSH) {
+            If ('${{ secrets.NUGET_API_KEY }}' -ne '') {
+                nuget push **\DotNetForms*.nupkg -NoSymbols True -Source 'https://api.nuget.org/v3/index.json' -ApiKey ${{secrets.NUGET_API_KEY}}
+            }
+        }
+        
+    - name: GTK Restore & Build
       run: |
         nuget restore Xamarin.Forms.Platform.GTK\Xamarin.Forms.Platform.GTK.csproj
         msbuild Xamarin.Forms.Platform.GTK\Xamarin.Forms.Platform.GTK.csproj /property:Configuration=Release
-    - name: Package and upload
+
+    - name: GTK Package and upload
       run: |
         $buildConfiguration = "Release"
-        git clone https://github.com/nblockchain/fsx
-        $version = `.\fsx\Tools\fsi.bat fsx\Tools\nugetPush.fsx --output-version $env:BASE_VERSION`
-        
+
         # Replaces '$core_version$' and '$version$' in GTK nuspec file with XF.Core dependency version and version generated above for this commit
         # Powershell code copied from script https://github.com/xamarin/Xamarin.Forms/blob/5.0.0/build/steps/build-nuget.yml
         Get-ChildItem './.nuspec/*.GTK.nuspec' -Recurse | Foreach-Object {
              (Get-Content $_) | Foreach-Object  {
-                 $_ -replace '\$version\$', $version `
-                    -replace '\$core_version\$', $env:BASE_VERSION `
+                 $_ -replace '\$version\$', $env:DOTNETFORMS_VERSION `
+                    -replace '\$core_version\$', $env:DOTNETFORMS_VERSION `
                     -replace '\$Configuration\$', $buildConfiguration `
              } | Set-Content $_
         }
 
         nuget pack './.nuspec/Xamarin.Forms.Platform.GTK.nuspec'
+
+        $version = $env:DOTNETFORMS_VERSION
 
         If ($Env:GITHUB_REF -eq $Env:DEFAULT_REF_TO_NUGET_PUSH) {
             If ('${{ secrets.NUGET_API_KEY }}' -ne '') {
