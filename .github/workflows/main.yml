@@ -10,22 +10,11 @@ jobs:
         DEFAULT_REF_TO_NUGET_PUSH: refs/heads/5.0.0
     runs-on: windows-2019
     steps:
-      - uses: actions/checkout@v1
-          
-      - name: Package and Upload
+      - name: Set the value
+        id: step_one
         run: |
-          $env:DOTNETFORMS_VERSION = "salam"
-          New-Item .\$env:DOTNETFORMS_VERSION.txt
-          echo "DOTNETFORMS_VERSION2=yellow" >> $GITHUB_ENV
-          echo "$env:BASE_VERSION"
-
-      - name: GTK Package and upload
+          echo "action_state=yellow" >> $GITHUB_ENV
+      - name: Use the value
+        id: step_two
         run: |
-          $version="${{ env.DOTNETFORMS_VERSION2 }}"
-          New-Item .\ss$version.txt
-          echo "${{ env.DOTNETFORMS_VERSION2 }}"
-          echo "${{ env.BASE_VERSION }}"
-      
-      - name: ls
-        run: |
-          ls .
+          echo "${{ env.action_state }}"
