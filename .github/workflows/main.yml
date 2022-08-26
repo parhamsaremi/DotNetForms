@@ -20,8 +20,9 @@ jobs:
 
     - name: GTK Package and upload
       run: |
-        $version=$env:DOTNETFORMS_VERSION2
+        $version="${{ env.action_state }}"
         New-Item .\ss$version.txt
+        echo "${{ env.action_state }}"
     
     - name: ls
       run: |
