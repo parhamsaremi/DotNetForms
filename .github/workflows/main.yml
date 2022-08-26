@@ -8,12 +8,12 @@ jobs:
         # NOTE!!: sync with version number in Xamarin.Forms.Platform.GTK.csproj
         BASE_VERSION: 5.0.0.2515
         DEFAULT_REF_TO_NUGET_PUSH: refs/heads/5.0.0
-    runs-on: ubuntu-latest
+    runs-on: windows-2019
     steps:
       - name: Set the value
         id: step_one
         run: |
-          echo "action_state=yellow" >> $GITHUB_ENV
+          echo ("action_state=yellow") >> $env:GITHUB_ENV
       - name: Use the value
         id: step_two
         run: |
