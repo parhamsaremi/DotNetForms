@@ -14,9 +14,13 @@ jobs:
         
     - name: Package and Upload
       run: |
-        $env:DOTNETFORMS_VERSION = 12.0.0
-        echo "$env:DOTNETFORMS_VERSION"
+        $env:DOTNETFORMS_VERSION = "salam"
+        New-Item .\$env:DOTNETFORMS_VERSION.txt
 
     - name: GTK Package and upload
       run: |
-        echo "$env:DOTNETFORMS_VERSION"
+        New-Item .\s$env:DOTNETFORMS_VERSION.txt
+    
+    - name: ls
+      run: |
+        ls .
