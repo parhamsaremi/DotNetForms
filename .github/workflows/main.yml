@@ -8,7 +8,7 @@ jobs:
         # NOTE!!: sync with version number in Xamarin.Forms.Platform.GTK.csproj
         BASE_VERSION: 5.0.0.2515
         DEFAULT_REF_TO_NUGET_PUSH: refs/heads/5.0.0
-    runs-on: windows-2019
+    runs-on: ubuntu-latest
     steps:
       - name: Set the value
         id: step_one
