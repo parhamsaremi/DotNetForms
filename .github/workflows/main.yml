@@ -11,16 +11,12 @@ jobs:
     runs-on: windows-2019
     steps:
     - uses: actions/checkout@v1
-    - name: Download Nuget.exe
-      uses: NuGet/setup-nuget@v1.0.5
-      with:
-        nuget-version: 5.4.0
         
     - name: Package and Upload
       run: |
         $env:DOTNETFORMS_VERSION = 12.0.0
-        echo $env:DOTNETFORMS_VERSION
+        echo "$env:DOTNETFORMS_VERSION"
 
     - name: GTK Package and upload
       run: |
-        echo $env:DOTNETFORMS_VERSION
+        echo "$env:DOTNETFORMS_VERSION"
