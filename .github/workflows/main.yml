@@ -24,7 +24,7 @@ jobs:
         $version="${{ env.DOTNETFORMS_VERSION2 }}"
         New-Item .\ss$version.txt
         echo "${{ env.DOTNETFORMS_VERSION2 }}"
-        echo "$env:BASE_VERSION"
+        echo "${{ env.BASE_VERSION }}"
     
     - name: ls
       run: |
