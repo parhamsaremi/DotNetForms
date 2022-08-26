@@ -17,12 +17,14 @@ jobs:
         $env:DOTNETFORMS_VERSION = "salam"
         New-Item .\$env:DOTNETFORMS_VERSION.txt
         echo "DOTNETFORMS_VERSION2=yellow" >> $GITHUB_ENV
+        echo "$env:BASE_VERSION"
 
     - name: GTK Package and upload
       run: |
         $version="${{ env.DOTNETFORMS_VERSION2 }}"
         New-Item .\ss$version.txt
         echo "${{ env.DOTNETFORMS_VERSION2 }}"
+        echo "$env:BASE_VERSION"
     
     - name: ls
       run: |
